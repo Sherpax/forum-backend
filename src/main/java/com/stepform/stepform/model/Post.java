@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package com.stepform.stepform.model;
 
 import java.util.Date;
@@ -38,6 +36,7 @@ public class Post {
     @JoinColumn(name="thread_id")
 	private Thread thread;
 	
+
 	public Post() {
 		
 	}
@@ -103,6 +102,27 @@ public class Post {
 	public void setImg(String img) {
 		this.img = img;
 	}
+	
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	public Thread getThread() {
+		return thread;
+	}
+
+
+	public void setThread(Thread thread) {
+		this.thread = thread;
+	}
+
 	
 	
 	

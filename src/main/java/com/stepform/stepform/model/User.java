@@ -25,10 +25,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(unique=true)
+	@Column(unique=true, nullable = false, updatable = true)
 	private String email;
-	private String pass;
+	@Column(unique=true, nullable = false, updatable = true)
 	private String userName;
+	private String pass;
+	
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
