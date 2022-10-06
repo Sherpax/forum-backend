@@ -19,7 +19,6 @@ import com.stepform.stepform.service.UserService;
  * @author Gonzalo.Cantos
  * @author Manuel.Vazquez
  */
-
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
