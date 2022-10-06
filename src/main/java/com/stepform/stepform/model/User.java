@@ -1,6 +1,7 @@
 package com.stepform.stepform.model;
 import java.util.List;
 
+import javax.persistence.Column;
 /*@author()*/
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +24,8 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	//@UniqueConstraint(columnNames = { "email" }) TODO
+	
+	@Column(unique=true)
 	private String email;
 	private String pass;
 	private String userName;
