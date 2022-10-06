@@ -3,6 +3,8 @@ package com.stepform.stepform.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +42,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String checkUser(@RequestBody User user) {
+	public ResponseEntity<String> checkUser(@RequestBody User user) {
 		// TO-DO
 		String email = user.getEmail().toLowerCase();
 		String pass = user.getPass();
@@ -55,12 +57,12 @@ public class UserController {
 			// TODO hash-pass
 			
 			if(email.equals(emailDb) && pass.equals(passDb)) {
-				return "OK";
+				return ResponseEntity.status(HttpStatus.OK).body("Login successful\n");
 			}
 			
 		}
 
-		return "KO";
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect credentials\n");
 		
 	}
 	
