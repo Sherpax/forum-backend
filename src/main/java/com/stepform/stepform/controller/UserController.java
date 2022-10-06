@@ -39,7 +39,6 @@ public class UserController {
 		return "New user have been registered";
 	}
 	
-	@CrossOrigin
 	@PostMapping("/login")
 	public String checkUser(@RequestBody User user) {
 		// TO-DO

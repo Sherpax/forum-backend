@@ -28,7 +28,7 @@ public class Post {
 	private String content;
 	private Date date;
 	private String img;
-
+	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")

@@ -3,9 +3,9 @@
  */
 package com.stepform.stepform.model;
 
-import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,7 +27,10 @@ public class Thread {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@Column(unique=true)
 	private String title;
+	private String description;
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "thread")
@@ -37,10 +40,11 @@ public class Thread {
 		
 	}
 
-	public Thread(int id, String title, String content, Date date, User user) {
+	public Thread(int id, String title, String description) {
 		super();
 		this.id = id;
 		this.title = title;
+		this.description = description;
 
 	}
 
@@ -58,6 +62,14 @@ public class Thread {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 
