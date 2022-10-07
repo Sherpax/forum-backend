@@ -4,6 +4,7 @@
 package com.stepform.stepform.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,12 @@ public class ThreadServiceImpl implements ThreadService {
 	@Override
 	public List<Thread> getAllThreads() {
 		return threadRepository.findAll();
+	}
+
+	@Override
+	public Optional<Thread> getThreadById(int id) {
+		
+		return threadRepository.findById(id);
 	}
 
 

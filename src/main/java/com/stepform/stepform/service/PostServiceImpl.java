@@ -24,6 +24,16 @@ public class PostServiceImpl implements PostService{
 	public List<Post> getAllPosts() {
 		return postRepository.findAll();
 	}
-	
+
+	@Override
+	public Post getPostById(int id) {
+		// TODO Auto-generated method stub
+		return postRepository.getReferenceById(id);
+	}
+
+	@Override
+	public List<Post> getPostsByThread(int id) {
+		return postRepository.findByThread(id);
+	}
 	
 }

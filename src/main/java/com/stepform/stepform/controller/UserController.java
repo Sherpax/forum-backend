@@ -1,12 +1,11 @@
 package com.stepform.stepform.controller;
 
 import java.security.SecureRandom;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,12 +22,17 @@ import com.stepform.stepform.service.UserService;
  * @author Gonzalo.Cantos
  * @author Manuel.Vazquez
  */
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
 public class UserController {
 
 	private final int WORKFACTOR = 10; //work factor of bcrypt
+	private final String UK_EMAIL = "UK_ob8kqyqqgmefl0aco34akdtpe";
+	private final String UK_USERNAME = "UK_lqjrcobrh9jc8wpcar64q1bfh";
+	private final String ERROR_EMAIL = "The email is already in use";
+	private final String ERROR_USERNAME = "The username is already in use";
 
 	private BCryptPasswordEncoder bCrypt;
 
@@ -41,22 +45,31 @@ public class UserController {
 		return userService.getAllUsers();
 	}
 
-	@PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping("/register")
 	public ResponseEntity<String> addUser(@RequestBody User user) {
 		user.setEmail(user.getEmail().toLowerCase());
 
-
 		bCrypt = new BCryptPasswordEncoder(WORKFACTOR, new SecureRandom());
-		String encodedPassword = bCrypt.encode(user.getPass());
 
+		String encodedPassword = bCrypt.encode(user.getPass());
 		user.setPass(encodedPassword);
+
 		try {
 			userService.saveUser(user);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Not UNIQUE email\n");
+			JSONObject entity = new JSONObject(); 
+
+			System.err.println(e.getMessage());
+			if(e.getMessage().contains(UK_USERNAME)) {
+				entity.put("username", ERROR_USERNAME);
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(entity.toString());
+			} else if(e.getMessage().contains(UK_EMAIL)){
+				entity.put("email", ERROR_EMAIL);
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(entity.toString());
+			}		
 		}
-		
-		return ResponseEntity.status(HttpStatus.OK).body("Register successful\n");
+
+		return ResponseEntity.status(HttpStatus.CREATED).body("Register successful\n");
 	}
 
 	@PostMapping("/login")
@@ -67,19 +80,21 @@ public class UserController {
 
 		User userLoaded = userService.loadUserByEmail(email);
 
-		
-		
+
 		if(userLoaded != null) {
 
 			String emailDb = userLoaded.getEmail();
 			String passDb = userLoaded.getPass();
 
 			// TODO hash-pass
-			 bCrypt = new BCryptPasswordEncoder();
-		     boolean passChecker = bCrypt.matches(pass, passDb);
+			bCrypt = new BCryptPasswordEncoder();
+			boolean passChecker = bCrypt.matches(pass, passDb);
 
 			if(email.equals(emailDb) && passChecker) {
-				return ResponseEntity.status(HttpStatus.OK).body("Login successful\n");
+				
+				JSONObject entity = new JSONObject(); 
+				entity.put("id_user", userLoaded.getId());
+				return ResponseEntity.status(HttpStatus.OK).body(entity.toString());
 			}
 
 		}

@@ -1,9 +1,6 @@
-/**
- * 
- */
+
 package com.stepform.stepform.model;
 
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,12 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author Gonzalo.Cantos
  * @author Manuel.Vazquez
  */
 
-@Entity
+@Entity(name="Post")
 public class Post {
 
 	@Id
@@ -26,25 +25,33 @@ public class Post {
 	private int id;
 	private String title;
 	private String content;
-	private Date date;
+	private String date;
 	private String img;
 	
-	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
 	private User user;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="thread_id")
 	private Thread thread;
 	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="category_id")
+	private Category category;
+	
+
+
 	public Post() {
 		
 	}
 	
 	
-	public Post(int id, String title, String content, Date date, String img, User user, Thread thread) {
-		super();
+	public Post(int id, String title, String content, String date, String img, User user, Thread thread) {
+
 		this.id = id;
 		this.title = title;
 		this.content = content;
@@ -68,10 +75,10 @@ public class Post {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -104,6 +111,34 @@ public class Post {
 		this.img = img;
 	}
 	
+	
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Thread getThread() {
+		return thread;
+	}
+
+
+	public void setThread(Thread thread) {
+		this.thread = thread;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	
 	
 }
