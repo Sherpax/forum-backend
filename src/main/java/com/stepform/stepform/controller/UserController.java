@@ -72,7 +72,7 @@ public class UserController {
 		}
 		
 		entity.put("id_user", user.getId());
-		return ResponseEntity.status(HttpStatus.CREATED).body("Register successful\n");
+		return ResponseEntity.status(HttpStatus.CREATED).body(entity.toString());
 	}
 
 	@PostMapping("/login")
