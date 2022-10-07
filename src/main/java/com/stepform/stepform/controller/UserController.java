@@ -47,6 +47,8 @@ public class UserController {
 
 	@PostMapping("/register")
 	public ResponseEntity<String> addUser(@RequestBody User user) {
+		JSONObject entity = new JSONObject(); 
+		
 		user.setEmail(user.getEmail().toLowerCase());
 
 		bCrypt = new BCryptPasswordEncoder(WORKFACTOR, new SecureRandom());
@@ -57,7 +59,7 @@ public class UserController {
 		try {
 			userService.saveUser(user);
 		} catch (Exception e) {
-			JSONObject entity = new JSONObject(); 
+			
 
 			System.err.println(e.getMessage());
 			if(e.getMessage().contains(UK_USERNAME)) {
@@ -68,7 +70,8 @@ public class UserController {
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(entity.toString());
 			}		
 		}
-
+		
+		entity.put("id_user", user.getId());
 		return ResponseEntity.status(HttpStatus.CREATED).body("Register successful\n");
 	}
 
