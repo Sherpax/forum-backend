@@ -1,7 +1,6 @@
 package com.stepform.stepform.controller;
 
 import java.security.SecureRandom;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -92,7 +91,10 @@ public class UserController {
 			boolean passChecker = bCrypt.matches(pass, passDb);
 
 			if(email.equals(emailDb) && passChecker) {
-				return ResponseEntity.status(HttpStatus.OK).body("Login successful\n");
+				
+				JSONObject entity = new JSONObject(); 
+				entity.put("id_user", userLoaded.getId());
+				return ResponseEntity.status(HttpStatus.OK).body(entity.toString());
 			}
 
 		}
