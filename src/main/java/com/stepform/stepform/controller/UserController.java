@@ -60,7 +60,6 @@ public class UserController {
 			userService.saveUser(user);
 		} catch (Exception e) {
 			
-
 			System.err.println(e.getMessage());
 			if(e.getMessage().contains(UK_USERNAME)) {
 				entity.put("username", ERROR_USERNAME);
