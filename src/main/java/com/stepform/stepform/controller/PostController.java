@@ -68,7 +68,7 @@ public class PostController {
 		int iUserId = Integer.parseInt(userId);
 		Optional<User> user = userService.getUserById(iUserId);
 		Optional<Thread> thread = threadService.getThreadById(iThreadId);
-
+		
 		String categoryName = post.getImg();
 		String imgPath = "";
 		
@@ -98,6 +98,7 @@ public class PostController {
 		
 		if(!user.isEmpty() && !thread.isEmpty()) {
 			post.setUser(user.get());
+			post.setTitle(post.getTitle() + " " + post.getImg());
 			post.setThread(thread.get());
 			post.setCategory(categoryService.getCategoryByTitle(post.getImg()));
 			post.setImg(imgPath);
