@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,7 +41,7 @@ public class UserController {
 		return userService.getAllUsers();
 	}
 
-	@PostMapping("/register")
+	@PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> addUser(@RequestBody User user) {
 		user.setEmail(user.getEmail().toLowerCase());
 
@@ -74,7 +75,7 @@ public class UserController {
 			String passDb = userLoaded.getPass();
 
 			// TODO hash-pass
-			bCrypt = new BCryptPasswordEncoder();
+			 bCrypt = new BCryptPasswordEncoder();
 		     boolean passChecker = bCrypt.matches(pass, passDb);
 
 			if(email.equals(emailDb) && passChecker) {
